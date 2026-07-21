@@ -2,6 +2,9 @@ import torch
 from transformers import AutoProcessor, MusicgenForConditionalGeneration
 import scipy.io.wavfile
 
+import threading
+gpu_lock = threading.Lock()
+
 class MusicGenerator:
     def __init__(self):
         self.device = (
@@ -40,12 +43,16 @@ class MusicGenerator:
             k:v.to(self.device)
             for k,v in inputs.items()
         }
-        audio_values = (
-            self.model.generate(
-                **inputs,
-                max_new_tokens=1024
+        with gpu_lock:
+            print("prepare inputs")
+            print("start generate")
+            audio_values = (
+                self.model.generate(
+                    **inputs,
+                    max_new_tokens=512
+                )
             )
-        )
+            print("finish generate")
         sampling_rate = (
             self.model.config.audio_encoder.sampling_rate
         )
