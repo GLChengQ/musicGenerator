@@ -1,0 +1,35 @@
+[project]
+name = "musicgenerator"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "<3.12,>=3.11"
+dependencies = [
+    "accelerate>=1.14.0",
+    "numpy==1.26.4",
+    "scipy>=1.17.1",
+    "soundfile>=0.14.0",
+    "transformers==4.46.3",
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "fastmcp>=3.4.4",
+]
+
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu124" }
+]
+torchvision = [
+    { index = "pytorch-cu124" }
+]
+torchaudio = [
+    { index = "pytorch-cu124" }
+]
+
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
